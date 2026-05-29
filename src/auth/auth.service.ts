@@ -45,7 +45,13 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    return this.issueTokensAndSetCookies(user.id, res);
+    await this.issueTokensAndSetCookies(user.id, res);
+    return {
+      user: {
+        email: user.email,
+        name: user.name,
+      },
+    };
   }
 
   async signUp(data: registerUserDto) {
@@ -67,7 +73,12 @@ export class AuthService {
       },
     });
 
-    return { user };
+    return {
+      user: {
+        email: user.email,
+        name: user.name,
+      },
+    };
   }
 
   async refreshToken(req: RefreshRequest, res: Response) {
@@ -91,7 +102,9 @@ export class AuthService {
       throw new UnauthorizedException('Invalid refresh token');
     }
 
-    return this.issueTokensAndSetCookies(user.id, res);
+    await this.issueTokensAndSetCookies(user.id, res);
+
+    return { success: true };
   }
 
   async signOut(userId: number, res: Response) {
@@ -162,6 +175,6 @@ export class AuthService {
   }
 
   async logGoogleUser(userId: number, res: Response) {
-    return await this.issueTokensAndSetCookies(userId, res);
+    await this.issueTokensAndSetCookies(userId, res);
   }
 }
