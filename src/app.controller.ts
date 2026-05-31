@@ -1,7 +1,9 @@
-import { Controller, Get, HttpCode } from '@nestjs/common';
+import { Controller, Get, HttpCode, UseInterceptors } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ApiCookieAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
+@UseInterceptors(CacheInterceptor)
 @ApiCookieAuth('access_token')
 @Controller()
 export class AppController {
@@ -19,6 +21,7 @@ export class AppController {
   @ApiResponse({ status: 200, description: 'returns list of users' })
   @Get('/users')
   getAll() {
+    console.log('Inside controller');
     return this.appService.getData();
   }
 }
