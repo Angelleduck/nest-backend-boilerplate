@@ -21,7 +21,6 @@ export class AppController {
   @ApiResponse({ status: 200, description: 'returns list of users' })
   @Get('/users')
   getAll() {
-    console.log('Inside controller');
     return this.appService.getData();
   }
 }

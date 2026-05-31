@@ -15,6 +15,7 @@ import { Keyv } from 'keyv';
     DatabaseModule,
     AuthModule,
     CacheModule.registerAsync({
+      isGlobal: true,
       useFactory: () => {
         return {
           stores: [
